@@ -13,7 +13,7 @@
             background: #050505;
             font-family: 'Poppins', sans-serif;
             color: white;
-            user-select: none; /* Prevent text selection on double tap */
+            user-select: none;
         }
 
         /* Fireworks Canvas */
@@ -45,7 +45,7 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 30px;
+            padding: 40px 30px;
             border-radius: 20px;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
             animation: popIn 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
@@ -53,7 +53,7 @@
             overflow: hidden;
         }
 
-        /* Dynamic Sender Name Header */
+        /* Header Line */
         .wisher-line {
             font-size: 1.2rem;
             color: #feb47b;
@@ -88,65 +88,19 @@
             line-height: 1.7;
             color: #f0f0f0;
             background: rgba(0,0,0,0.2);
-            padding: 15px;
+            padding: 20px;
             border-radius: 10px;
             border-left: 4px solid #feb47b;
             text-align: justify;
             text-align-last: center;
+            margin-bottom: 25px;
         }
 
         .signature {
-            margin-top: 20px;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-family: 'Dancing Script', cursive;
             color: #ff9a9e;
         }
-
-        /* Magic Link Input Section */
-        .share-section {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.2);
-        }
-        
-        .share-label {
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-            display: block;
-            color: #ccc;
-        }
-
-        .input-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-
-        input {
-            padding: 10px;
-            border-radius: 5px;
-            border: none;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            outline: none;
-            width: 60%;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        input::placeholder { color: #ddd; }
-
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background: linear-gradient(45deg, #ff7e5f, #feb47b);
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        button:active { transform: scale(0.95); }
 
         /* Balloon Animation */
         .balloon {
@@ -159,7 +113,7 @@
             z-index: 5;
             animation: floatUp 8s linear infinite;
             opacity: 0.7;
-            pointer-events: none; /* Let clicks pass through to fireworks */
+            pointer-events: none;
         }
         
         .balloon::before {
@@ -192,10 +146,7 @@
         @media (max-width: 600px) {
             h1 { font-size: 2.8rem; }
             .year { font-size: 3.5rem; }
-            .card { padding: 20px; width: 85%; }
-            .input-group { flex-direction: column; }
-            input { width: 100%; box-sizing: border-box; }
-            button { width: 100%; }
+            .card { padding: 25px 20px; width: 85%; }
         }
     </style>
 </head>
@@ -218,53 +169,20 @@
                 Happy New Year 🤍✨<br>
                 ~ <span id="signName">Dev</span>
             </div>
-
-            <div class="share-section">
-                <span class="share-label">Create your own Magic Link & Share:</span>
-                <div class="input-group">
-                    <input type="text" id="nameInput" placeholder="Enter Your Name">
-                    <button onclick="generateLink()">Copy Link 🔗</button>
-                </div>
-            </div>
         </div>
     </div>
 
     <script>
-        // --- 1. MAGIC LINK LOGIC ---
+        // --- 1. DYNAMIC NAME LOGIC (Optional) ---
+        // Input box hata diya hai, but agar URL me ?from=Name hoga to abhi bhi chalega.
+        // Default "Dev" hi rahega.
         
-        // URL se naam nikalne ka logic
         const urlParams = new URLSearchParams(window.location.search);
         const fromName = urlParams.get('from');
-        
-        // Agar URL me naam hai toh woh dikhao, nahi toh default 'Dev'
         const sender = fromName ? decodeURIComponent(fromName) : 'Dev';
         
-        // HTML update karo
         document.getElementById('wisherText').innerText = sender + " is wishing you";
         document.getElementById('signName').innerText = sender;
-
-        // Apna Link Generate karne ka function
-        function generateLink() {
-            const inputName = document.getElementById('nameInput').value.trim();
-            if(!inputName) {
-                alert("Please enter your name first!");
-                return;
-            }
-            
-            // Current URL + ?from=Name
-            const newUrl = `${window.location.origin}${window.location.pathname}?from=${encodeURIComponent(inputName)}`;
-            
-            // Clipboard me copy karo
-            navigator.clipboard.writeText(newUrl).then(() => {
-                const btn = document.querySelector('button');
-                btn.innerText = "Copied! ✅";
-                btn.style.background = "#43a047";
-                setTimeout(() => {
-                    btn.innerText = "Copy Link 🔗";
-                    btn.style.background = "linear-gradient(45deg, #ff7e5f, #feb47b)";
-                }, 2000);
-            });
-        }
 
 
         // --- 2. BALLOON LOGIC ---
@@ -274,7 +192,7 @@
             const colors = ['#ff7e5f', '#feb47b', '#86a8e7', '#91eae4', '#ff00cc', '#ffff00', '#ff0040'];
             balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
             balloon.style.left = Math.random() * 100 + 'vw';
-            balloon.style.animationDuration = (Math.random() * 3 + 5) + 's'; // 5s to 8s
+            balloon.style.animationDuration = (Math.random() * 3 + 5) + 's';
             document.body.appendChild(balloon);
             setTimeout(() => balloon.remove(), 8000);
         }
@@ -293,7 +211,6 @@
             this.x = x;
             this.y = y;
             this.color = color;
-            // Explosion radius badha diya
             const velocity = Math.random() * 15; 
             const angle = Math.random() * Math.PI * 2;
             this.velocity = {
@@ -309,7 +226,7 @@
             ctx.save();
             ctx.globalAlpha = this.alpha;
             ctx.beginPath();
-            ctx.arc(this.x, this.y, 4, 0, Math.PI * 2, false); // Thoda bada particle
+            ctx.arc(this.x, this.y, 4, 0, Math.PI * 2, false);
             ctx.fillStyle = this.color;
             ctx.fill();
             ctx.restore();
@@ -318,16 +235,15 @@
         Particle.prototype.update = function() {
             this.velocity.x *= this.friction;
             this.velocity.y *= this.friction;
-            this.velocity.y += this.gravity; // Gravity effect
+            this.velocity.y += this.gravity;
             this.x += this.velocity.x;
             this.y += this.velocity.y;
-            this.alpha -= 0.015; // Fade out speed
+            this.alpha -= 0.015;
             this.draw();
         }
 
         function createExplosion(x, y) {
             const colors = ['#ff0040', '#ff00cc', '#00ffcc', '#ffff00', '#ffffff', '#ff7e5f'];
-            // Ek click pe multiple colors ke particles
             for (let i = 0; i < 80; i++) {
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 particles.push(new Particle(x, y, color));
@@ -336,7 +252,6 @@
 
         function animate() {
             requestAnimationFrame(animate);
-            // Trail effect (screen clear hone se pehle thoda blur)
             ctx.fillStyle = 'rgba(0, 0, 0, 0.15)'; 
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -356,15 +271,13 @@
             createExplosion(x, y);
         }, 1000);
 
-        // Click Handler (Desktop)
+        // Click Handler
         window.addEventListener('mousedown', (e) => {
             createExplosion(e.clientX, e.clientY);
         });
 
-        // Touch Handler (Mobile)
+        // Touch Handler
         window.addEventListener('touchstart', (e) => {
-            // Prevent default zooming/scrolling on quick taps
-            // e.preventDefault(); 
             for (let i = 0; i < e.touches.length; i++) {
                 createExplosion(e.touches[i].clientX, e.touches[i].clientY);
             }
